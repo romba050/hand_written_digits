@@ -1,0 +1,16 @@
+[project]
+name = "mlp-hand-written-digits"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.0.0",
+    "gunicorn>=22.0.0",
+    "numpy>=1.24.0,<3.0.0",
+    "pillow>=10.0.0",
+    "pydot>=4.0.1",
+    "pydotplus>=2.0.2",
+    "tensorflow>=2.15.0,<2.19.0",
+    "visualkeras>=0.2.0",
+]

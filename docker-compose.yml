@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  digit-recognizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: digit-recognizer
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app.py
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount the model file if you want to use a pre-trained model
+      - ./mnist_model.h5:/app/mnist_model.h5:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

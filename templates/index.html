@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand-Written Digit Recognizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Side Navigation -->
+    <nav class="side-nav">
+        <div class="nav-header">
+            <h2>MNIST CNN</h2>
+        </div>
+        <ul class="nav-menu">
+            <li>
+                <a href="#" class="nav-link active" data-page="recognizer">
+                    <!-- <span class="nav-icon">✏️</span> -->
+                    <span class="nav-text">Digit Recognizer</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-page="architecture">
+                    <!-- <span class="nav-icon">🏗️</span> -->
+                    <span class="nav-text">Model Architecture</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Page 1: Digit Recognizer -->
+        <div id="recognizerPage" class="page active">
+            <header>
+                <h1>Hand-Written Digit Recognizer</h1>
+                <p class="subtitle">Draw a digit (0-9) and let the vision model recognize it!</p>
+                <p class="subtitle">Make sure to use the space given by the square.</p>
+                <p class="subtitle">Model trained on <a href="https://en.wikipedia.org/wiki/MNIST_database">MNIST database</a>.</p>
+            </header>
+
+            <main>
+                <div class="canvas-section">
+                    <canvas id="canvas" width="400" height="400"></canvas>
+                    <div class="controls">
+                        <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                        <button id="recognizeBtn" class="btn btn-primary">Recognize Digit</button>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <div id="loading" class="loading hidden">
+                        <div class="spinner"></div>
+                        <p>Analyzing...</p>
+                    </div>
+
+                    <div id="error" class="error hidden">
+                        <p id="errorMessage"></p>
+                    </div>
+
+                    <!-- Tabs for Results -->
+                    <div id="resultsTabs" class="tabs-container hidden">
+                        <div class="tabs-header">
+                            <button class="tab-btn active" data-tab="prediction">Prediction</button>
+                            <button class="tab-btn" data-tab="activations">Network Activations</button>
+                        </div>
+
+                        <div class="tabs-content">
+                            <!-- Prediction Tab -->
+                            <div id="predictionTab" class="tab-pane active">
+                                <div id="result" class="result">
+                                    <h2>Prediction</h2>
+                                    <div class="predicted-digit">
+                                        <span id="predictedDigit">-</span>
+                                    </div>
+                                    <div class="confidence">
+                                        Confidence: <span id="confidence">-</span>
+                                    </div>
+                                </div>
+
+                                <div id="probabilities" class="probabilities">
+                                    <h3>All Probabilities</h3>
+                                    <div id="probabilityBars"></div>
+                                </div>
+                            </div>
+
+                            <!-- Network Activations Tab -->
+                            <div id="activationsTab" class="tab-pane">
+                                <div class="color-legend">
+                                    <div class="legend-title">Activation Strength</div>
+                                    <div class="gradient-legend">
+                                        <div class="gradient-bar"></div>
+                                        <div class="gradient-labels">
+                                            <span>0.0</span>
+                                            <span>0.2</span>
+                                            <span>0.4</span>
+                                            <span>0.6</span>
+                                            <span>0.8</span>
+                                            <span>1.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="networkCanvas"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <p>Powered by TensorFlow & Flask</p>
+            </footer>
+        </div>
+
+        <!-- Page 2: Model Architecture -->
+        <div id="architecturePage" class="page">
+            <header>
+                <h1>Model Architecture</h1>
+                <p class="subtitle">Convolutional Neural Network trained on MNIST dataset</p>
+            </header>
+
+            <section class="architecture-content">
+                <div class="architecture-description">
+                    <h2>Network Overview</h2>
+                    <p>This CNN model consists of:</p>
+                    <ul>
+                        <li><strong>Input Layer:</strong> 28×28 grayscale images</li>
+                        <li><strong>3 Convolutional Blocks:</strong> Feature extraction with ReLU activation</li>
+                        <li><strong>2 MaxPooling Layers:</strong> Spatial dimension reduction</li>
+                        <li><strong>Flatten Layer:</strong> Convert 2D features to 1D vector</li>
+                        <li><strong>2 Dense Layers:</strong> Classification with dropout regularization</li>
+                        <li><strong>Output Layer:</strong> 10 neurons (digits 0-9) with softmax activation</li>
+                    </ul>
+                    <div class="model-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Test Accuracy</div>
+                            <div class="stat-value">~99%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Training Epochs</div>
+                            <div class="stat-value">10</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Dataset</div>
+                            <div class="stat-value">MNIST</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="architecture-image-container">
+                    <h3>Layer Visualization</h3>
+                    <img src="/model-architecture" alt="Model Architecture Visualization" class="architecture-image">
+                </div>
+            </section>
+
+            <footer>
+                <p>Powered by TensorFlow & Flask</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
